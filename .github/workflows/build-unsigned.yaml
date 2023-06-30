@@ -34,22 +34,11 @@ jobs:
         with:
           arguments: --no-daemon app:assembleMeta-AlphaRelease
           
-      - name: Set current tag
-        id: current_tag
-        run: echo ::set-output name=tag::$(git describe --tags --abbrev=0)
-
-      - name: Tag Repo
-        uses: richardsimko/update-tag@v1
-        with:
-          tag_name: ${{ steps.current_tag.outputs.tag }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Upload Release
         uses: softprops/action-gh-release@v1
         if: ${{  success() }}
         with:
-          tag_name: ${{ github.ref_name }}
+          tag_name: "v0.0.1"
           files: app/build/outputs/apk/meta/release/*
           generate_release_notes: true
 
