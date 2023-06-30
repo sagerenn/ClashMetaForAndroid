@@ -34,13 +34,9 @@ jobs:
         with:
           arguments: --no-daemon app:assembleMeta-AlphaRelease
           
-      - name: Upload Release
-        uses: softprops/action-gh-release@v1
-        if: ${{  success() }}
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
         with:
-          tag_name: "v0.0.1"
-          files: app/build/outputs/apk/meta/*release/*
-          generate_release_notes: true
-
-      - name: Release Changelog Builder
-        uses: mikepenz/release-changelog-builder-action@v3.6.0
+          name: apk
+          path: |
+            app/build/outputs/apk
