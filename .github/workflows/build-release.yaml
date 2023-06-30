@@ -55,25 +55,19 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: --no-daemon app:assembleMetaRelease
-
-      - name: Set current tag
-        id: current_tag
-        run: echo ::set-output name=tag::$(git describe --tags --abbrev=0)
-
-      - name: Tag Repo
-        uses: richardsimko/update-tag@v1
+          
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
         with:
-          tag: ${{ steps.current_tag.outputs.tag }}
-          tag_name: ${{ steps.current_tag.outputs.tag }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: apk
+          path: |
+            app/build/outputs/apk
 
       - name: Upload Release
         uses: softprops/action-gh-release@v1
         if: ${{  success() }}
         with:
-          tag: ${{ github.ref_name }}
-          tag_name: ${{ github.ref_name }}
+          tag_name: "v0.0.1"
           files: app/build/outputs/apk/meta/release/*
           generate_release_notes: true
 
