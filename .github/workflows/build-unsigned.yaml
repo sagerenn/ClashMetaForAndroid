@@ -39,7 +39,7 @@ jobs:
         if: ${{  success() }}
         with:
           tag_name: "v0.0.1"
-          files: app/build/outputs/apk/meta/release/*
+          files: app/build/outputs/apk/meta/*release/*
           generate_release_notes: true
 
       - name: Release Changelog Builder
